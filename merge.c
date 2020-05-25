@@ -6,11 +6,16 @@
 int n, SortedList[50];
 void *selection_sort(void *arg);
 void *merge_sort(void *arg);
+//  to store the input digits
+int* OriginalList = 0; 
+// the number of the digits
+int n=0;
 
 typedef struct 
 {
 	int begin;
 	int end;
+	
 } parameters;
 
 //main 
@@ -21,15 +26,16 @@ int main()
 	// Asking the user for input until user hit the enter 使用者輸入數字 
 	printf("Please input some digits... \n");
 	printf(" *note: press the 'ENTER' button when you don't want to input\n");
-	while(1){
-		scanf("%d", &input);		
+	while(1)
+	{
+		scanf("%d", &input); //讀取使用者輸入	 	
 		s=getchar();      
 		//Dynamical Memory Allocation 動態配置 
 		OriginalList = (int*)realloc(OriginalList, sizeof(int) * (n + 1));	
 		//Add the input number to the last place
 		OriginalList[n] = input;
 		n++;	
-		//If hit the "Enter" button then it will be ended 當使用者不要繼續輸入時按下"Enter"鍵 
+		//If hit the "Enter" button then it will be ended 當使用者不繼續輸入時按下"Enter"鍵 
 		if(s == '\n') break;										
 	}
 	
@@ -140,5 +146,4 @@ void *merge_sort(void *arg)
 		k++;
 	}
 }
-
 
