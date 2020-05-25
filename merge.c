@@ -22,7 +22,8 @@ typedef struct
 int main()
 {
 	
-	int n = 0;
+	int n =0 ,i=0, input = 0;
+	char s ='0';
 	// Asking the user for input until user hit the enter 使用者輸入數字 
 	printf("Please input some digits... \n");
 	printf(" *note: press the 'ENTER' button when you don't want to input\n");
@@ -63,8 +64,11 @@ int main()
 	pthread_t t3;
 	pthread_create(&t3, NULL, merge_sort, data); // sort the elements
 	pthread_join(t3, NULL);
-	for (int i = 0; i < n; i++)
+	printf("After sorting.... \n");
+	for (i = 0; i < n; i++){
 		printf("%d,", SortedList[i]);
+	}
+		
 	system("pause");
 }
 
@@ -73,7 +77,7 @@ void *selection_sort(void *arg)
 	parameters *data = (parameters *)arg;  // 取得資料
 	int low = data->begin;
 	int high = data->end;
-	int i, j, temp;
+	int i =0 , j =0, temp =0;
 	for (i = low; i < high ; i++)
 	{
 		int min = i;
@@ -95,7 +99,7 @@ void *selection_sort(void *arg)
 }
 
 void *merge_sort(void *arg)
-{
+{	int i,j=0;
 	parameters *data = (parameters *)arg;  // 取得資料
 	int low = data->begin; //0
 	int high = data->end;  //9
@@ -104,15 +108,15 @@ void *merge_sort(void *arg)
 	int Llength = mid - low + 1;
 	int Rlength = high - mid;
 	//複製資料到兩個子陣列
-	for (int i = 0; i < Llength; i++) {
+	for ( i = 0; i < Llength; i++) {
 		Left[i] = OriginalList[low + i];
 	}
-	for (int j = 0; j < Rlength; j++) {
+	for (j = 0; j < Rlength; j++) {
 		Right[j] = OriginalList[mid + 1 + j];
 	}
 	/* Merge the temp arrays back into arr[l..r]*/
-	int i = 0; // Initial index of first subarray 
-	int j = 0; // Initial index of second subarray 
+	i = 0; // Initial index of first subarray 
+	j = 0; // Initial index of second subarray 
 	int k = low; // Initial index of merged subarray 
 
 	//將兩個子陣列中的數字合併另一個新陣列，直到其中一個子陣列放完
