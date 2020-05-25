@@ -2,8 +2,8 @@
 #include<stdio.h>
 #include<pthread.h>
 #pragma comment(lib, "pthreadVC2.lib")
-//n¬O¿é¤JªºÁ`¼Æ¡AOriginalListÀx¦s¿é¤Jªº¼Æ¦r¡ASortedList¬O±Æ§Ç«áªº°}¦C
-int n, OriginalList[50], SortedList[50];
+//næ˜¯è¼¸å…¥çš„ç¸½æ•¸ï¼ŒOriginalListå„²å­˜è¼¸å…¥çš„æ•¸å­—ï¼ŒSortedListæ˜¯æ’åºå¾Œçš„é™£åˆ—
+int n, SortedList[50];
 void *selection_sort(void *arg);
 void *merge_sort(void *arg);
 
@@ -18,33 +18,33 @@ int main()
 {
 	
 	int n = 0;
-	// Asking the user for input until user hit the enter ¨Ï¥ÎªÌ¿é¤J¼Æ¦r 
+	// Asking the user for input until user hit the enter ä½¿ç”¨è€…è¼¸å…¥æ•¸å­— 
 	printf("Please input some digits... \n");
 	printf(" *note: press the 'ENTER' button when you don't want to input\n");
 	while(1){
 		scanf("%d", &input);		
 		s=getchar();      
-		//Dynamical Memory Allocation °ÊºA°t¸m 
+		//Dynamical Memory Allocation å‹•æ…‹é…ç½® 
 		OriginalList = (int*)realloc(OriginalList, sizeof(int) * (n + 1));	
 		//Add the input number to the last place
 		OriginalList[n] = input;
 		n++;	
-		//If hit the "Enter" button then it will be ended ·í¨Ï¥ÎªÌ¤£­nÄ~Äò¿é¤J®É«ö¤U"Enter"Áä 
+		//If hit the "Enter" button then it will be ended ç•¶ä½¿ç”¨è€…ä¸è¦ç¹¼çºŒè¼¸å…¥æ™‚æŒ‰ä¸‹"Enter"éµ 
 		if(s == '\n') break;										
 	}
 	
 	
 	int low = 0;
 	int high = n - 1;
-	int mid = low + (high - low) / 2; //¤¤¦ì¼Æ
+	int mid = low + (high - low) / 2; //ä¸­ä½æ•¸
 	//thread1 sort left side
 	parameters *data = (parameters *)malloc(sizeof(parameters));
 
 	data->begin = low;
 	data->end = mid;
 	pthread_t t1;
-	pthread_create(&t1, NULL, selection_sort, data); // «Ø¥ß¤l°õ¦æºü¡A¶Ç¤J data ¶i¦æ­pºâ 
-	pthread_join(t1, NULL);									 // µ¥«İ¤l°õ¦æºü­pºâ§¹²¦
+	pthread_create(&t1, NULL, selection_sort, data); // å»ºç«‹å­åŸ·è¡Œç·’ï¼Œå‚³å…¥ data é€²è¡Œè¨ˆç®— 
+	pthread_join(t1, NULL);									 // ç­‰å¾…å­åŸ·è¡Œç·’è¨ˆç®—å®Œç•¢
 	//thread2 sort right side
 	data->begin = mid + 1;
 	data->end = high;
@@ -64,23 +64,23 @@ int main()
 
 void *selection_sort(void *arg)
 {
-	parameters *data = (parameters *)arg;  // ¨ú±o¸ê®Æ
+	parameters *data = (parameters *)arg;  // å–å¾—è³‡æ–™
 	int low = data->begin;
 	int high = data->end;
 	int i, j, temp;
 	for (i = low; i < high ; i++)
 	{
 		int min = i;
-		for (j = i + 1; j < high+1; j++)     //¨«³X¥¼±Æ§Çªº¤¸¯À
+		for (j = i + 1; j < high+1; j++)     //èµ°è¨ªæœªæ’åºçš„å…ƒç´ 
 		{
-			if (OriginalList[j] < OriginalList[min])    //§ä¨ì¥Ø«e³Ì¤p­È
+			if (OriginalList[j] < OriginalList[min])    //æ‰¾åˆ°ç›®å‰æœ€å°å€¼
 			{
-				min = j;    //¬ö¿ı³Ì¤p­È
+				min = j;    //ç´€éŒ„æœ€å°å€¼
 			}
 		}
 		if (min != i)
 		{
-			temp = OriginalList[min];  //¥æ´«¨â­ÓÅÜ¼Æ
+			temp = OriginalList[min];  //äº¤æ›å…©å€‹è®Šæ•¸
 			OriginalList[min] = OriginalList[i];
 			OriginalList[i] = temp;
 		}
@@ -90,14 +90,14 @@ void *selection_sort(void *arg)
 
 void *merge_sort(void *arg)
 {
-	parameters *data = (parameters *)arg;  // ¨ú±o¸ê®Æ
+	parameters *data = (parameters *)arg;  // å–å¾—è³‡æ–™
 	int low = data->begin; //0
 	int high = data->end;  //9
 	int Left[25], Right[25];
 	int mid = low + (high - low) / 2;//4
 	int Llength = mid - low + 1;
 	int Rlength = high - mid;
-	//½Æ»s¸ê®Æ¨ì¨â­Ó¤l°}¦C
+	//è¤‡è£½è³‡æ–™åˆ°å…©å€‹å­é™£åˆ—
 	for (int i = 0; i < Llength; i++) {
 		Left[i] = OriginalList[low + i];
 	}
@@ -109,10 +109,10 @@ void *merge_sort(void *arg)
 	int j = 0; // Initial index of second subarray 
 	int k = low; // Initial index of merged subarray 
 
-	//±N¨â­Ó¤l°}¦C¤¤ªº¼Æ¦r¦X¨Ö¥t¤@­Ó·s°}¦C¡Aª½¨ì¨ä¤¤¤@­Ó¤l°}¦C©ñ§¹
+	//å°‡å…©å€‹å­é™£åˆ—ä¸­çš„æ•¸å­—åˆä½µå¦ä¸€å€‹æ–°é™£åˆ—ï¼Œç›´åˆ°å…¶ä¸­ä¸€å€‹å­é™£åˆ—æ”¾å®Œ
 	while (i < Llength && j < Rlength)
 	{
-		//¤ñ¸û«ámerge¦X¨Ö¡A¤ñ¸û¤pªº©ñ¥ªÃä
+		//æ¯”è¼ƒå¾Œmergeåˆä½µï¼Œæ¯”è¼ƒå°çš„æ”¾å·¦é‚Š
 		if (Left[i] <= Right[j])
 		{
 			SortedList[k] = Left[i];
@@ -125,14 +125,14 @@ void *merge_sort(void *arg)
 		}
 		k++;
 	}
-	/* ¦pªGLeft[]ÁÙ¦³³Ñ¾lªº¤w±Æ§Ç¼Æ¦r¡A´NÀx¦s¨ìmergearray*/
+	/* å¦‚æœLeft[]é‚„æœ‰å‰©é¤˜çš„å·²æ’åºæ•¸å­—ï¼Œå°±å„²å­˜åˆ°mergearray*/
 	while (i < Llength)
 	{
 		SortedList[k] = Left[i];
 		i++;
 		k++;
 	}
-	/* ¦pªGRight[]ÁÙ¦³³Ñ¾lªº¤w±Æ§Ç¼Æ¦r¡A´NÀx¦s¨ìmergearray*/
+	/* å¦‚æœRight[]é‚„æœ‰å‰©é¤˜çš„å·²æ’åºæ•¸å­—ï¼Œå°±å„²å­˜åˆ°mergearray*/
 	while (j < Rlength)
 	{
 		SortedList[k] = Right[j];
